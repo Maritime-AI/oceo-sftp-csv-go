@@ -93,7 +93,13 @@ func (s *OCEOSFTPClient) UploadCrew(ctx context.Context,
 
 	nowUnix := time.Now().Unix()
 	fn := fmt.Sprintf(fileTemplate, orgName, FileTypeCrew, nowUnix)
-	return s.uploadData(ctx, fn, crew)
+
+	bs, err := gocsv.MarshalBytes(&crew)
+	if err != nil {
+		return fmt.Errorf("failed to marshal crew: %w", err)
+	}
+
+	return s.uploadData(ctx, fn, bs)
 }
 
 // UploadCrewCredentials uploads a slice of CrewCredential data to the SFTP server as a CSV file.
@@ -118,7 +124,13 @@ func (s *OCEOSFTPClient) UploadCrewCredentials(ctx context.Context,
 
 	nowUnix := time.Now().Unix()
 	fn := fmt.Sprintf(fileTemplate, orgName, FileTypeCrewCredentials, nowUnix)
-	return s.uploadData(ctx, fn, credentials)
+
+	bs, err := gocsv.MarshalBytes(&credentials)
+	if err != nil {
+		return fmt.Errorf("failed to marshal crew credentials: %w", err)
+	}
+
+	return s.uploadData(ctx, fn, bs)
 }
 
 // UploadVessels uploads a slice of Vessel data to the SFTP server as a CSV file.
@@ -143,7 +155,13 @@ func (s *OCEOSFTPClient) UploadVessels(ctx context.Context,
 
 	nowUnix := time.Now().Unix()
 	fn := fmt.Sprintf(fileTemplate, orgName, FileTypeVessels, nowUnix)
-	return s.uploadData(ctx, fn, vessels)
+
+	bs, err := gocsv.MarshalBytes(&vessels)
+	if err != nil {
+		return fmt.Errorf("failed to marshal vessels: %w", err)
+	}
+
+	return s.uploadData(ctx, fn, bs)
 }
 
 // UploadVesselSchedules uploads a slice of VesselSchedule data to the SFTP server as a CSV file.
@@ -168,7 +186,13 @@ func (s *OCEOSFTPClient) UploadVesselSchedules(ctx context.Context,
 
 	nowUnix := time.Now().Unix()
 	fn := fmt.Sprintf(fileTemplate, orgName, FileTypeVesselSchedules, nowUnix)
-	return s.uploadData(ctx, fn, vesselSchedules)
+
+	bs, err := gocsv.MarshalBytes(&vesselSchedules)
+	if err != nil {
+		return fmt.Errorf("failed to marshal vessel schedules: %w", err)
+	}
+
+	return s.uploadData(ctx, fn, bs)
 }
 
 // UploadVesselSchedulePositions uploads a slice of VesselSchedulePosition data to the SFTP server as a CSV file.
@@ -193,7 +217,13 @@ func (s *OCEOSFTPClient) UploadVesselSchedulePositions(ctx context.Context,
 
 	nowUnix := time.Now().Unix()
 	fn := fmt.Sprintf(fileTemplate, orgName, FileTypeVesselSchedulePositions, nowUnix)
-	return s.uploadData(ctx, fn, vesselPositions)
+
+	bs, err := gocsv.MarshalBytes(&vesselPositions)
+	if err != nil {
+		return fmt.Errorf("failed to marshal vessel positions: %w", err)
+	}
+
+	return s.uploadData(ctx, fn, bs)
 }
 
 // UploadCrewSchedules uploads a slice of CrewSchedule data to the SFTP server as a CSV file.
@@ -218,7 +248,13 @@ func (s *OCEOSFTPClient) UploadCrewSchedules(ctx context.Context, orgName string
 
 	nowUnix := time.Now().Unix()
 	fn := fmt.Sprintf(fileTemplate, orgName, FileTypeCrewSchedules, nowUnix)
-	return s.uploadData(ctx, fn, crewSchedules)
+
+	bs, err := gocsv.MarshalBytes(&crewSchedules)
+	if err != nil {
+		return fmt.Errorf("failed to marshal crew schedules: %w", err)
+	}
+
+	return s.uploadData(ctx, fn, bs)
 }
 
 // UploadCrewSchedulePositions uploads a slice of CrewSchedulePosition data to the SFTP server as a CSV file.
@@ -243,7 +279,13 @@ func (s *OCEOSFTPClient) UploadCrewSchedulePositions(ctx context.Context, orgNam
 
 	nowUnix := time.Now().Unix()
 	fn := fmt.Sprintf(fileTemplate, orgName, FileTypeCrewSchedulePositions, nowUnix)
-	return s.uploadData(ctx, fn, crewSchedulePositions)
+
+	bs, err := gocsv.MarshalBytes(&crewSchedulePositions)
+	if err != nil {
+		return fmt.Errorf("failed to marshal crew schedule positions: %w", err)
+	}
+
+	return s.uploadData(ctx, fn, bs)
 }
 
 // uploadData is a helper function to upload data of any type to the SFTP server as a CSV file.
@@ -253,7 +295,7 @@ func (s *OCEOSFTPClient) UploadCrewSchedulePositions(ctx context.Context, orgNam
 //
 // Returns:
 // - An error if the upload fails.
-func (s *OCEOSFTPClient) uploadData(ctx context.Context, fileName string, data any) error {
+func (s *OCEOSFTPClient) uploadData(ctx context.Context, fileName string, data []byte) error {
 
 	conn, err := ssh.Dial("tcp", s.addr, &s.config)
 	if err != nil {
@@ -291,11 +333,7 @@ func (s *OCEOSFTPClient) uploadData(ctx context.Context, fileName string, data a
 	}()
 
 	// Copy the content to the remote file
-	bs, err := gocsv.MarshalBytes(&data)
-	if err != nil {
-		return fmt.Errorf("failed to marshal data: %w", err)
-	}
-	if _, err := io.Copy(destFile, bytes.NewReader(bs)); err != nil {
+	if _, err := io.Copy(destFile, bytes.NewReader(data)); err != nil {
 		return fmt.Errorf("failed to copy data to remote file: %w", err)
 	}
 
