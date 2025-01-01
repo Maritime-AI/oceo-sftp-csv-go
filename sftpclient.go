@@ -30,9 +30,8 @@ const (
 
 // OCEOSFTPClient manages the connection to an SFTP server and provides methods to upload structured data in CSV format.
 type OCEOSFTPClient struct {
-	orgName string
-	addr    string
-	config  ssh.ClientConfig
+	addr   string
+	config ssh.ClientConfig
 }
 
 // NewOCEOSFTPCLient initializes a new OCEO SFTPClient with the specified server details.
@@ -48,7 +47,7 @@ type OCEOSFTPClient struct {
 // - An instance of SFTPClient.
 // - An error if there is an issue creating the client.
 func NewOCEOSFTPCLient(
-	orgName, host, port, user string,
+	host, port, user string,
 	rsaPrivateKeyBytes []byte) (*OCEOSFTPClient, error) {
 	authMethod, err := readPrivateKey(rsaPrivateKeyBytes)
 	if err != nil {
@@ -57,8 +56,7 @@ func NewOCEOSFTPCLient(
 
 	addr := fmt.Sprintf("%s:%s", host, port)
 	return &OCEOSFTPClient{
-		orgName: orgName,
-		addr:    addr,
+		addr: addr,
 		config: ssh.ClientConfig{
 			User:            user,
 			HostKeyCallback: ssh.InsecureIgnoreHostKey(),
@@ -74,14 +72,15 @@ func NewOCEOSFTPCLient(
 //
 // Returns:
 // - An error if the upload fails.
-func (s *OCEOSFTPClient) UploadCrew(ctx context.Context, crew ...models.Crew) error {
+func (s *OCEOSFTPClient) UploadCrew(ctx context.Context,
+	orgName string, crew ...models.Crew) error {
 	if len(crew) == 0 {
 		fmt.Println("No crew to upload")
 		return nil
 	}
 
 	nowUnix := time.Now().Unix()
-	fn := fmt.Sprintf(crewFileTemplate, s.orgName, nowUnix)
+	fn := fmt.Sprintf(crewFileTemplate, orgName, nowUnix)
 	return s.uploadData(ctx, fn, crew)
 }
 
@@ -92,14 +91,15 @@ func (s *OCEOSFTPClient) UploadCrew(ctx context.Context, crew ...models.Crew) er
 //
 // Returns:
 // - An error if the upload fails.
-func (s *OCEOSFTPClient) UploadCrewCredentials(ctx context.Context, credentials ...models.CrewCredential) error {
+func (s *OCEOSFTPClient) UploadCrewCredentials(ctx context.Context,
+	orgName string, credentials ...models.CrewCredential) error {
 	if len(credentials) == 0 {
 		fmt.Println("No crew to upload")
 		return nil
 	}
 
 	nowUnix := time.Now().Unix()
-	fn := fmt.Sprintf(crewCredentialsFileTemplate, s.orgName, nowUnix)
+	fn := fmt.Sprintf(crewCredentialsFileTemplate, orgName, nowUnix)
 	return s.uploadData(ctx, fn, credentials)
 }
 
@@ -110,14 +110,15 @@ func (s *OCEOSFTPClient) UploadCrewCredentials(ctx context.Context, credentials 
 //
 // Returns:
 // - An error if the upload fails.
-func (s *OCEOSFTPClient) UploadVessels(ctx context.Context, vessels ...models.Vessel) error {
+func (s *OCEOSFTPClient) UploadVessels(ctx context.Context,
+	orgName string, vessels ...models.Vessel) error {
 	if len(vessels) == 0 {
 		fmt.Println("No vessels to upload")
 		return nil
 	}
 
 	nowUnix := time.Now().Unix()
-	fn := fmt.Sprintf(vesselFileTemplate, s.orgName, nowUnix)
+	fn := fmt.Sprintf(vesselFileTemplate, orgName, nowUnix)
 	return s.uploadData(ctx, fn, vessels)
 }
 
@@ -128,14 +129,15 @@ func (s *OCEOSFTPClient) UploadVessels(ctx context.Context, vessels ...models.Ve
 //
 // Returns:
 // - An error if the upload fails.
-func (s *OCEOSFTPClient) UploadVesselSchedules(ctx context.Context, vesselSchedules ...models.VesselSchedule) error {
+func (s *OCEOSFTPClient) UploadVesselSchedules(ctx context.Context,
+	orgName string, vesselSchedules ...models.VesselSchedule) error {
 	if len(vesselSchedules) == 0 {
 		fmt.Println("No vessel schedules to upload")
 		return nil
 	}
 
 	nowUnix := time.Now().Unix()
-	fn := fmt.Sprintf(vesselScheduleFileTemplate, s.orgName, nowUnix)
+	fn := fmt.Sprintf(vesselScheduleFileTemplate, orgName, nowUnix)
 	return s.uploadData(ctx, fn, vesselSchedules)
 }
 
@@ -146,14 +148,15 @@ func (s *OCEOSFTPClient) UploadVesselSchedules(ctx context.Context, vesselSchedu
 //
 // Returns:
 // - An error if the upload fails.
-func (s *OCEOSFTPClient) UploadVesselSchedulePositions(ctx context.Context, vesselPositions ...models.VesselSchedulePosition) error {
+func (s *OCEOSFTPClient) UploadVesselSchedulePositions(ctx context.Context,
+	orgName string, vesselPositions ...models.VesselSchedulePosition) error {
 	if len(vesselPositions) == 0 {
 		fmt.Println("No vessel positions to upload")
 		return nil
 	}
 
 	nowUnix := time.Now().Unix()
-	fn := fmt.Sprintf(vesselSchedulePositionsFileTemplate, s.orgName, nowUnix)
+	fn := fmt.Sprintf(vesselSchedulePositionsFileTemplate, orgName, nowUnix)
 	return s.uploadData(ctx, fn, vesselPositions)
 }
 
@@ -164,14 +167,15 @@ func (s *OCEOSFTPClient) UploadVesselSchedulePositions(ctx context.Context, vess
 //
 // Returns:
 // - An error if the upload fails.
-func (s *OCEOSFTPClient) UploadCrewSchedules(ctx context.Context, crewSchedules ...models.CrewSchedule) error {
+func (s *OCEOSFTPClient) UploadCrewSchedules(ctx context.Context, orgName string,
+	crewSchedules ...models.CrewSchedule) error {
 	if len(crewSchedules) == 0 {
 		fmt.Println("No crew schedules to upload")
 		return nil
 	}
 
 	nowUnix := time.Now().Unix()
-	fn := fmt.Sprintf(crewScheduleFileTemplate, s.orgName, nowUnix)
+	fn := fmt.Sprintf(crewScheduleFileTemplate, orgName, nowUnix)
 	return s.uploadData(ctx, fn, crewSchedules)
 }
 
@@ -182,14 +186,15 @@ func (s *OCEOSFTPClient) UploadCrewSchedules(ctx context.Context, crewSchedules 
 //
 // Returns:
 // - An error if the upload fails.
-func (s *OCEOSFTPClient) UploadCrewSchedulePositions(ctx context.Context, crewSchedulePositions ...models.CrewSchedulePosition) error {
+func (s *OCEOSFTPClient) UploadCrewSchedulePositions(ctx context.Context, orgName string,
+	crewSchedulePositions ...models.CrewSchedulePosition) error {
 	if len(crewSchedulePositions) == 0 {
 		fmt.Println("No crew schedule positions to upload")
 		return nil
 	}
 
 	nowUnix := time.Now().Unix()
-	fn := fmt.Sprintf(crewSchedulePositionsFileTemplate, s.orgName, nowUnix)
+	fn := fmt.Sprintf(crewSchedulePositionsFileTemplate, orgName, nowUnix)
 	return s.uploadData(ctx, fn, crewSchedulePositions)
 }
 
