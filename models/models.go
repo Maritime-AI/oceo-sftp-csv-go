@@ -45,12 +45,14 @@ type VesselSchedule struct {
 	ServiceEndAt     string  `csv:"Service End At"`
 }
 
-// VesselPosition represents the position of a vessel.
-type VesselPosition struct {
+// VesselSchedulePosition represents the position of a vessel.
+type VesselSchedulePosition struct {
 	VesselExternalID string   `csv:"Vessel External ID"`
 	Position         string   `csv:"Position"`
 	CredentialTitle  string   `csv:"Credential Title"`
 	Endorsements     []string `csv:"Endorsements"`
+	ServiceStartAt   *string  `csv:"Service Start At"`
+	ServiceEndAt     *string  `csv:"Service End At"`
 }
 
 // CrewSchedule represents the schedule of a crew member.
@@ -71,4 +73,6 @@ type CrewSchedulePosition struct {
 	Position         string   `csv:"Position"`
 	CredentialTitle  string   `csv:"Credential Title"`
 	Endorsements     []string `csv:"Endorsements"`
+	ServiceStartAt   *string  `csv:"Service Start At"`
+	ServiceEndAt     *string  `csv:"Service End At"`
 }
