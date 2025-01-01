@@ -3,8 +3,8 @@ package models
 // Crew represents the details of a crew member.
 type Crew struct {
 	ExternalID string  `csv:"External ID"`
-	FirstName  *string `csv:"First Name"`
-	LastName   *string `csv:"Last Name"`
+	FirstName  string  `csv:"First Name"`
+	LastName   string  `csv:"Last Name"`
 	MiddleName *string `csv:"Middle Name"`
 	JobTitle   *string `csv:"Job Title"`
 	City       *string `csv:"City"`
@@ -26,8 +26,8 @@ type CrewCredential struct {
 
 // Vessel represents the details of a vessel.
 type Vessel struct {
-	ExternalID           *string `csv:"External ID"`
-	Name                 *string `csv:"Name"`
+	ExternalID           string  `csv:"External ID"`
+	Name                 string  `csv:"Name"`
 	MMSINumber           *string `csv:"MMSI Number"`
 	IMONumber            *string `csv:"IMO Number"`
 	AdditionalIdentifier *string `csv:"Additional Identifier"`
@@ -35,7 +35,7 @@ type Vessel struct {
 
 // VesselSchedule represents the schedule of a vessel.
 type VesselSchedule struct {
-	VesselExternalID *string `csv:"Vessel External ID"`
+	VesselExternalID string  `csv:"Vessel External ID"`
 	VesselName       *string `csv:"Vessel Name"`
 	VesselIMONumber  *string `csv:"Vessel IMO Number"`
 	VesselMMSINumber *string `csv:"Vessel MMSI Number"`
