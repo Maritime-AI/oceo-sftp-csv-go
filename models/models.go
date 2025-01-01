@@ -41,8 +41,8 @@ type VesselSchedule struct {
 	VesselMMSINumber *string `csv:"Vessel MMSI Number"`
 	Client           *string `csv:"Client"`
 	Description      *string `csv:"Description"`
-	ServiceStartAt   *string `csv:"Service Start At"`
-	ServiceEndAt     *string `csv:"Service End At"`
+	ServiceStartAt   string  `csv:"Service Start At"`
+	ServiceEndAt     string  `csv:"Service End At"`
 }
 
 // VesselPosition represents the position of a vessel.
