@@ -2,31 +2,31 @@ package models
 
 // Crew represents the details of a crew member.
 type Crew struct {
-	ExternalID string  `csv:"External ID"`
-	FirstName  string  `csv:"First Name"`
-	LastName   string  `csv:"Last Name"`
-	MiddleName *string `csv:"Middle Name"`
-	JobTitle   *string `csv:"Job Title"`
-	City       *string `csv:"City"`
-	State      *string `csv:"State"`
-	Country    *string `csv:"Country"`
-	Email      *string `csv:"Email"`
-	Phone      *string `csv:"Phone"`
+	CrewExternalID string  `csv:"External ID"`
+	FirstName      string  `csv:"First Name"`
+	LastName       string  `csv:"Last Name"`
+	MiddleName     *string `csv:"Middle Name"`
+	JobTitle       *string `csv:"Job Title"`
+	City           *string `csv:"City"`
+	State          *string `csv:"State"`
+	Country        *string `csv:"Country"`
+	Email          *string `csv:"Email"`
+	Phone          *string `csv:"Phone"`
 }
 
 // CrewCredential represents the credentials of a crew member.
 type CrewCredential struct {
-	ExternalID string  `csv:"External ID"`
-	Title      string  `csv:"Title"`
-	Type       *string `csv:"Type"`
-	Details    *string `csv:"Details"`
-	IssuedAt   *string `csv:"Issued At"`
-	ExpiresAt  *string `csv:"Expires At"`
+	CrewExternalID string  `csv:"External ID"`
+	Title          string  `csv:"Title"`
+	Type           *string `csv:"Type"`
+	Details        *string `csv:"Details"`
+	IssuedAt       *string `csv:"Issued At"`
+	ExpiresAt      *string `csv:"Expires At"`
 }
 
 // Vessel represents the details of a vessel.
 type Vessel struct {
-	ExternalID           string  `csv:"External ID"`
+	VesselExternalID     string  `csv:"External ID"`
 	Name                 string  `csv:"Name"`
 	MMSINumber           *string `csv:"MMSI Number"`
 	IMONumber            *string `csv:"IMO Number"`
