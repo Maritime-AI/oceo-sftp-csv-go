@@ -1,5 +1,10 @@
 package models
 
+// Delimiter is the delimiter used to separate endorsements in a CSV file.
+const (
+	Delimiter = "*|*"
+)
+
 // Crew represents the details of a crew member.
 type Crew struct {
 	CrewExternalID string  `csv:"External ID"`
@@ -19,7 +24,7 @@ type CrewCredential struct {
 	CrewExternalID string  `csv:"External ID"`
 	Title          string  `csv:"Title"`
 	Type           *string `csv:"Type"`
-	//Endorsements is a list of endorsements, separated by *|*.
+	//Endorsements is a list of endorsements, separated by *|* Delimiter.
 	Endorsements string  `csv:"Endorsements"`
 	IssuedAt     *string `csv:"Issued At"`
 	ExpiresAt    *string `csv:"Expires At"`
@@ -74,7 +79,7 @@ type CrewSchedulePosition struct {
 	VesselExternalID string `csv:"Vessel External ID"`
 	Position         string `csv:"Position"`
 	CredentialTitle  string `csv:"Credential Title"`
-	//Endorsements is a list of endorsements, separated by *|*.
+	//Endorsements is a list of endorsements, separated by *|* Delimiter.
 	Endorsements   string  `csv:"Endorsements"`
 	ServiceStartAt *string `csv:"Service Start At"`
 	ServiceEndAt   *string `csv:"Service End At"`
