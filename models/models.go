@@ -1,6 +1,9 @@
 package models
 
-import "errors"
+import (
+	"errors"
+	"strings"
+)
 
 // Delimiter is the delimiter used to separate endorsements in a CSV file.
 const (
@@ -36,6 +39,29 @@ func (c *Crew) Validate() error {
 	}
 
 	return nil
+}
+
+// GetLocation returns the location of the crew member.
+func (r *Crew) GetLocation() string {
+	if r == nil {
+		return ""
+	}
+
+	var cityStateParts []string
+	if r.City != nil {
+		cityStateParts = append(cityStateParts, *r.City)
+	}
+
+	if r.State != nil {
+		cityStateParts = append(cityStateParts, *r.State)
+	}
+
+	loc := strings.Join(cityStateParts, ", ")
+	if r.Country != nil {
+		loc += ", " + *r.Country
+	}
+
+	return loc
 }
 
 // CrewCredential represents the credentials of a crew member.
