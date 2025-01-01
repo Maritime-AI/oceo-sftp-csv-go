@@ -18,14 +18,20 @@ const (
 	remoteDir = "./data"
 )
 
+type FileType string
+
 const (
-	vesselScheduleFileTemplate          = "%s_vesselschedules_%d.csv"
-	crewFileTemplate                    = "%s_crew_%d.csv"
-	crewCredentialsFileTemplate         = "%s_credentials_%d.csv"
-	vesselFileTemplate                  = "%s_vessels_%d.csv"
-	vesselSchedulePositionsFileTemplate = "%s_vesselschedulepositions_%d.csv"
-	crewScheduleFileTemplate            = "%s_crewschedules_%d.csv"
-	crewSchedulePositionsFileTemplate   = "%s_crewschedulepositions_%d.csv"
+	FileTypeCrew                    FileType = "crew"
+	FileTypeCrewCredentials         FileType = "credentials"
+	FileTypeVessels                 FileType = "vessels"
+	FileTypeVesselSchedules         FileType = "vesselschedules"
+	FileTypeVesselSchedulePositions FileType = "vesselschedulepositions"
+	FileTypeCrewSchedules           FileType = "crewschedules"
+	FileTypeCrewSchedulePositions   FileType = "crewschedulepositions"
+)
+
+const (
+	fileTemplate = "%s_%s_%d.csv"
 )
 
 // OCEOSFTPClient manages the connection to an SFTP server and provides methods to upload structured data in CSV format.
@@ -80,7 +86,7 @@ func (s *OCEOSFTPClient) UploadCrew(ctx context.Context,
 	}
 
 	nowUnix := time.Now().Unix()
-	fn := fmt.Sprintf(crewFileTemplate, orgName, nowUnix)
+	fn := fmt.Sprintf(fileTemplate, orgName, FileTypeCrew, nowUnix)
 	return s.uploadData(ctx, fn, crew)
 }
 
@@ -99,7 +105,7 @@ func (s *OCEOSFTPClient) UploadCrewCredentials(ctx context.Context,
 	}
 
 	nowUnix := time.Now().Unix()
-	fn := fmt.Sprintf(crewCredentialsFileTemplate, orgName, nowUnix)
+	fn := fmt.Sprintf(fileTemplate, orgName, FileTypeCrewCredentials, nowUnix)
 	return s.uploadData(ctx, fn, credentials)
 }
 
@@ -118,7 +124,7 @@ func (s *OCEOSFTPClient) UploadVessels(ctx context.Context,
 	}
 
 	nowUnix := time.Now().Unix()
-	fn := fmt.Sprintf(vesselFileTemplate, orgName, nowUnix)
+	fn := fmt.Sprintf(fileTemplate, orgName, FileTypeVessels, nowUnix)
 	return s.uploadData(ctx, fn, vessels)
 }
 
@@ -137,7 +143,7 @@ func (s *OCEOSFTPClient) UploadVesselSchedules(ctx context.Context,
 	}
 
 	nowUnix := time.Now().Unix()
-	fn := fmt.Sprintf(vesselScheduleFileTemplate, orgName, nowUnix)
+	fn := fmt.Sprintf(fileTemplate, orgName, FileTypeVesselSchedules, nowUnix)
 	return s.uploadData(ctx, fn, vesselSchedules)
 }
 
@@ -156,7 +162,7 @@ func (s *OCEOSFTPClient) UploadVesselSchedulePositions(ctx context.Context,
 	}
 
 	nowUnix := time.Now().Unix()
-	fn := fmt.Sprintf(vesselSchedulePositionsFileTemplate, orgName, nowUnix)
+	fn := fmt.Sprintf(fileTemplate, orgName, FileTypeVesselSchedulePositions, nowUnix)
 	return s.uploadData(ctx, fn, vesselPositions)
 }
 
@@ -175,7 +181,7 @@ func (s *OCEOSFTPClient) UploadCrewSchedules(ctx context.Context, orgName string
 	}
 
 	nowUnix := time.Now().Unix()
-	fn := fmt.Sprintf(crewScheduleFileTemplate, orgName, nowUnix)
+	fn := fmt.Sprintf(fileTemplate, orgName, FileTypeCrewSchedules, nowUnix)
 	return s.uploadData(ctx, fn, crewSchedules)
 }
 
@@ -194,7 +200,7 @@ func (s *OCEOSFTPClient) UploadCrewSchedulePositions(ctx context.Context, orgNam
 	}
 
 	nowUnix := time.Now().Unix()
-	fn := fmt.Sprintf(crewSchedulePositionsFileTemplate, orgName, nowUnix)
+	fn := fmt.Sprintf(fileTemplate, orgName, FileTypeCrewSchedulePositions, nowUnix)
 	return s.uploadData(ctx, fn, crewSchedulePositions)
 }
 
@@ -230,7 +236,9 @@ func (s *OCEOSFTPClient) uploadData(ctx context.Context, fileName string, data a
 	}()
 
 	// Open the destination file on the remote server
-	destFile, err := sc.Create(fmt.Sprintf("./%s/%s", remoteDir, fileName))
+	dest := fmt.Sprintf("./%s/%s", remoteDir, fileName)
+	log.Printf("uoloading data to %s", dest)
+	destFile, err := sc.Create(dest)
 	if err != nil {
 		return fmt.Errorf("failed to create remote file: %w", err)
 	}
