@@ -85,6 +85,12 @@ func (s *OCEOSFTPClient) UploadCrew(ctx context.Context,
 		return nil
 	}
 
+	for _, c := range crew {
+		if err := c.Validate(); err != nil {
+			return fmt.Errorf("invalid crew data: %w", err)
+		}
+	}
+
 	nowUnix := time.Now().Unix()
 	fn := fmt.Sprintf(fileTemplate, orgName, FileTypeCrew, nowUnix)
 	return s.uploadData(ctx, fn, crew)
@@ -102,6 +108,12 @@ func (s *OCEOSFTPClient) UploadCrewCredentials(ctx context.Context,
 	if len(credentials) == 0 {
 		fmt.Println("No crew to upload")
 		return nil
+	}
+
+	for _, cc := range credentials {
+		if err := cc.Validate(); err != nil {
+			return fmt.Errorf("invalid crew credential data: %w", err)
+		}
 	}
 
 	nowUnix := time.Now().Unix()
@@ -123,6 +135,12 @@ func (s *OCEOSFTPClient) UploadVessels(ctx context.Context,
 		return nil
 	}
 
+	for _, v := range vessels {
+		if err := v.Validate(); err != nil {
+			return fmt.Errorf("invalid vessel data: %w", err)
+		}
+	}
+
 	nowUnix := time.Now().Unix()
 	fn := fmt.Sprintf(fileTemplate, orgName, FileTypeVessels, nowUnix)
 	return s.uploadData(ctx, fn, vessels)
@@ -140,6 +158,12 @@ func (s *OCEOSFTPClient) UploadVesselSchedules(ctx context.Context,
 	if len(vesselSchedules) == 0 {
 		fmt.Println("No vessel schedules to upload")
 		return nil
+	}
+
+	for _, vs := range vesselSchedules {
+		if err := vs.Validate(); err != nil {
+			return fmt.Errorf("invalid vessel schedule data: %w", err)
+		}
 	}
 
 	nowUnix := time.Now().Unix()
@@ -161,6 +185,12 @@ func (s *OCEOSFTPClient) UploadVesselSchedulePositions(ctx context.Context,
 		return nil
 	}
 
+	for _, vp := range vesselPositions {
+		if err := vp.Validate(); err != nil {
+			return fmt.Errorf("invalid vessel position data: %w", err)
+		}
+	}
+
 	nowUnix := time.Now().Unix()
 	fn := fmt.Sprintf(fileTemplate, orgName, FileTypeVesselSchedulePositions, nowUnix)
 	return s.uploadData(ctx, fn, vesselPositions)
@@ -180,6 +210,12 @@ func (s *OCEOSFTPClient) UploadCrewSchedules(ctx context.Context, orgName string
 		return nil
 	}
 
+	for _, cs := range crewSchedules {
+		if err := cs.Validate(); err != nil {
+			return fmt.Errorf("invalid crew schedule data: %w", err)
+		}
+	}
+
 	nowUnix := time.Now().Unix()
 	fn := fmt.Sprintf(fileTemplate, orgName, FileTypeCrewSchedules, nowUnix)
 	return s.uploadData(ctx, fn, crewSchedules)
@@ -197,6 +233,12 @@ func (s *OCEOSFTPClient) UploadCrewSchedulePositions(ctx context.Context, orgNam
 	if len(crewSchedulePositions) == 0 {
 		fmt.Println("No crew schedule positions to upload")
 		return nil
+	}
+
+	for _, csp := range crewSchedulePositions {
+		if err := csp.Validate(); err != nil {
+			return fmt.Errorf("invalid crew schedule position data: %w", err)
+		}
 	}
 
 	nowUnix := time.Now().Unix()
