@@ -1,6 +1,7 @@
 package sftpclient
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/Maritime-AI/oceo-sftp-csv-go/models"
@@ -80,8 +81,8 @@ func (s *SFTPClient) Close() error {
 //
 // Returns:
 // - An error if the upload fails.
-func (s *SFTPClient) UploadCrew(crew []models.Crew) error {
-	return s.uploadData(crew)
+func (s *SFTPClient) UploadCrew(ctx context.Context, crew []models.Crew) error {
+	return s.uploadData(ctx, crew)
 }
 
 // UploadCrewCredentials uploads a slice of CrewCredential data to the SFTP server as a CSV file.
@@ -91,8 +92,8 @@ func (s *SFTPClient) UploadCrew(crew []models.Crew) error {
 //
 // Returns:
 // - An error if the upload fails.
-func (s *SFTPClient) UploadCrewCredentials(crewCred []models.CrewCredential) error {
-	return s.uploadData(crewCred)
+func (s *SFTPClient) UploadCrewCredentials(ctx context.Context, crewCred []models.CrewCredential) error {
+	return s.uploadData(ctx, crewCred)
 }
 
 // UploadVessels uploads a slice of Vessel data to the SFTP server as a CSV file.
@@ -102,8 +103,8 @@ func (s *SFTPClient) UploadCrewCredentials(crewCred []models.CrewCredential) err
 //
 // Returns:
 // - An error if the upload fails.
-func (s *SFTPClient) UploadVessels(vessels []models.Vessel) error {
-	return s.uploadData(vessels)
+func (s *SFTPClient) UploadVessels(ctx context.Context, vessels []models.Vessel) error {
+	return s.uploadData(ctx, vessels)
 }
 
 // UploadVesselSchedules uploads a slice of VesselSchedule data to the SFTP server as a CSV file.
@@ -113,8 +114,8 @@ func (s *SFTPClient) UploadVessels(vessels []models.Vessel) error {
 //
 // Returns:
 // - An error if the upload fails.
-func (s *SFTPClient) UploadVesselSchedules(vesselSchedules []models.VesselSchedule) error {
-	return s.uploadData(vesselSchedules)
+func (s *SFTPClient) UploadVesselSchedules(ctx context.Context, vesselSchedules []models.VesselSchedule) error {
+	return s.uploadData(ctx, vesselSchedules)
 }
 
 // UploadVesselPositions uploads a slice of VesselPosition data to the SFTP server as a CSV file.
@@ -124,8 +125,8 @@ func (s *SFTPClient) UploadVesselSchedules(vesselSchedules []models.VesselSchedu
 //
 // Returns:
 // - An error if the upload fails.
-func (s *SFTPClient) UploadVesselPositions(vesselPositions []models.VesselPosition) error {
-	return s.uploadData(vesselPositions)
+func (s *SFTPClient) UploadVesselPositions(ctx context.Context, vesselPositions []models.VesselPosition) error {
+	return s.uploadData(ctx, vesselPositions)
 }
 
 // UploadCrewSchedules uploads a slice of CrewSchedule data to the SFTP server as a CSV file.
@@ -135,8 +136,8 @@ func (s *SFTPClient) UploadVesselPositions(vesselPositions []models.VesselPositi
 //
 // Returns:
 // - An error if the upload fails.
-func (s *SFTPClient) UploadCrewSchedules(crewSchedules []models.CrewSchedule) error {
-	return s.uploadData(crewSchedules)
+func (s *SFTPClient) UploadCrewSchedules(ctx context.Context, crewSchedules []models.CrewSchedule) error {
+	return s.uploadData(ctx, crewSchedules)
 }
 
 // UploadCrewSchedulePositions uploads a slice of CrewSchedulePosition data to the SFTP server as a CSV file.
@@ -146,8 +147,8 @@ func (s *SFTPClient) UploadCrewSchedules(crewSchedules []models.CrewSchedule) er
 //
 // Returns:
 // - An error if the upload fails.
-func (s *SFTPClient) UploadCrewSchedulePositions(crewSchedulePositions []models.CrewSchedulePosition) error {
-	return s.uploadData(crewSchedulePositions)
+func (s *SFTPClient) UploadCrewSchedulePositions(ctx context.Context, crewSchedulePositions []models.CrewSchedulePosition) error {
+	return s.uploadData(ctx, crewSchedulePositions)
 }
 
 // uploadData is a helper function to upload data of any type to the SFTP server as a CSV file.
@@ -157,19 +158,19 @@ func (s *SFTPClient) UploadCrewSchedulePositions(crewSchedulePositions []models.
 //
 // Returns:
 // - An error if the upload fails.
-func (s *SFTPClient) uploadData(data any) error {
+func (s *SFTPClient) uploadData(ctx context.Context, data any) error {
 	bs, err := gocsv.MarshalBytes(&data)
 	if err != nil {
 		return fmt.Errorf("failed to marshal data: %w", err)
 	}
+
 	file, err := s.client.Create(remotePath)
 	if err != nil {
 		return fmt.Errorf("failed to create remote file: %w", err)
 	}
 	defer file.Close()
 
-	_, err = file.Write(bs)
-	if err != nil {
+	if _, err := file.Write(bs); err != nil {
 		return fmt.Errorf("failed to write to remote file: %w", err)
 	}
 
