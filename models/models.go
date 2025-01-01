@@ -19,9 +19,10 @@ type CrewCredential struct {
 	CrewExternalID string  `csv:"External ID"`
 	Title          string  `csv:"Title"`
 	Type           *string `csv:"Type"`
-	Details        *string `csv:"Details"`
-	IssuedAt       *string `csv:"Issued At"`
-	ExpiresAt      *string `csv:"Expires At"`
+	//Endorsements is a list of endorsements, separated by *|*.
+	Endorsements string  `csv:"Endorsements"`
+	IssuedAt     *string `csv:"Issued At"`
+	ExpiresAt    *string `csv:"Expires At"`
 }
 
 // Vessel represents the details of a vessel.
@@ -47,12 +48,13 @@ type VesselSchedule struct {
 
 // VesselSchedulePosition represents the position of a vessel.
 type VesselSchedulePosition struct {
-	VesselExternalID string   `csv:"Vessel External ID"`
-	Position         string   `csv:"Position"`
-	CredentialTitle  string   `csv:"Credential Title"`
-	Endorsements     []string `csv:"Endorsements"`
-	ServiceStartAt   *string  `csv:"Service Start At"`
-	ServiceEndAt     *string  `csv:"Service End At"`
+	VesselExternalID string `csv:"Vessel External ID"`
+	Position         string `csv:"Position"`
+	CredentialTitle  string `csv:"Credential Title"`
+	//Endorsements is a list of endorsements, separated by *|*.
+	Endorsements   string  `csv:"Endorsements"`
+	ServiceStartAt *string `csv:"Service Start At"`
+	ServiceEndAt   *string `csv:"Service End At"`
 }
 
 // CrewSchedule represents the schedule of a crew member.
@@ -68,11 +70,12 @@ type CrewSchedule struct {
 
 // CrewSchedulePosition represents the position details of a crew member in a schedule.
 type CrewSchedulePosition struct {
-	CrewExternalID   string   `csv:"Crew External ID"`
-	VesselExternalID string   `csv:"Vessel External ID"`
-	Position         string   `csv:"Position"`
-	CredentialTitle  string   `csv:"Credential Title"`
-	Endorsements     []string `csv:"Endorsements"`
-	ServiceStartAt   *string  `csv:"Service Start At"`
-	ServiceEndAt     *string  `csv:"Service End At"`
+	CrewExternalID   string `csv:"Crew External ID"`
+	VesselExternalID string `csv:"Vessel External ID"`
+	Position         string `csv:"Position"`
+	CredentialTitle  string `csv:"Credential Title"`
+	//Endorsements is a list of endorsements, separated by *|*.
+	Endorsements   string  `csv:"Endorsements"`
+	ServiceStartAt *string `csv:"Service Start At"`
+	ServiceEndAt   *string `csv:"Service End At"`
 }
