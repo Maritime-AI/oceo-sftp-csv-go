@@ -109,7 +109,6 @@ func (cc *CrewCredential) Validate() error {
 // Vessel represents the details of a vessel.
 type Vessel struct {
 	ContextID            string  `csv:"Context ID"`
-	ExternalID           string  `csv:"External ID"`
 	VesselExternalID     string  `csv:"Vessel External ID"`
 	Name                 string  `csv:"Name"`
 	MMSINumber           *string `csv:"MMSI Number"`
@@ -125,10 +124,6 @@ func (v *Vessel) Validate() error {
 
 	if len(v.ContextID) == 0 {
 		return errors.New("missing context id")
-	}
-
-	if len(v.ExternalID) == 0 {
-		return errors.New("missing external id")
 	}
 
 	if len(v.VesselExternalID) == 0 {
