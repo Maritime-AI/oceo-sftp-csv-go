@@ -182,6 +182,7 @@ func (vs *VesselSchedule) Validate() error {
 // VesselSchedulePosition represents the position of a vessel.
 type VesselSchedulePosition struct {
 	ContextID        string `csv:"Context ID"`
+	ExternalID       string `csv:"External ID"`
 	VesselExternalID string `csv:"Vessel External ID"`
 	Position         string `csv:"Position"`
 	CredentialTitle  string `csv:"Credential Title"`
@@ -195,6 +196,10 @@ type VesselSchedulePosition struct {
 func (vp *VesselSchedulePosition) Validate() error {
 	if vp == nil {
 		return errors.New("missing vessel schedule position")
+	}
+
+	if len(vp.ExternalID) == 0 {
+		return errors.New("missing external id")
 	}
 
 	if len(vp.ContextID) == 0 {
@@ -219,6 +224,7 @@ func (vp *VesselSchedulePosition) Validate() error {
 // CrewSchedule represents the schedule of a crew member.
 type CrewSchedule struct {
 	ContextID        string  `csv:"Context ID"`
+	ExternalID       string  `csv:"External ID"`
 	CrewExternalID   string  `csv:"Crew External ID"`
 	VesselExternalID string  `csv:"Vessel External ID"`
 	VesselName       string  `csv:"Vessel Name"`
@@ -236,6 +242,10 @@ func (vs *CrewSchedule) Validate() error {
 
 	if len(vs.ContextID) == 0 {
 		return errors.New("missing context id")
+	}
+
+	if len(vs.ExternalID) == 0 {
+		return errors.New("missing external id")
 	}
 
 	if len(vs.VesselExternalID) == 0 {
@@ -264,6 +274,7 @@ func (vs *CrewSchedule) Validate() error {
 // CrewSchedulePosition represents the position details of a crew member in a schedule.
 type CrewSchedulePosition struct {
 	ContextID        string `csv:"Context ID"`
+	ExternalID       string `csv:"External ID"`
 	CrewExternalID   string `csv:"Crew External ID"`
 	VesselExternalID string `csv:"Vessel External ID"`
 	Position         string `csv:"Position"`
@@ -282,6 +293,10 @@ func (vs *CrewSchedulePosition) Validate() error {
 
 	if len(vs.ContextID) == 0 {
 		return errors.New("missing context id")
+	}
+
+	if len(vs.ExternalID) == 0 {
+		return errors.New("missing external id")
 	}
 
 	if len(vs.VesselExternalID) == 0 {
