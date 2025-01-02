@@ -27,6 +27,10 @@ type Crew struct {
 
 // Validate checks if the required fields of a Crew are set.
 func (c *Crew) Validate() error {
+	if c == nil {
+		return errors.New("missing crew")
+	}
+
 	if len(c.ContextID) == 0 {
 		return errors.New("missing context ID")
 	}
@@ -83,6 +87,10 @@ type CrewCredential struct {
 
 // Validate checks if the required fields of a CrewCredential are set.
 func (cc *CrewCredential) Validate() error {
+	if cc == nil {
+		return errors.New("missing crew credential")
+	}
+
 	if len(cc.ContextID) == 0 {
 		return errors.New("missing context id")
 	}
@@ -111,6 +119,14 @@ type Vessel struct {
 
 // Validate checks if the required fields of a Vessel are set.
 func (v *Vessel) Validate() error {
+	if v == nil {
+		return errors.New("missing vessel")
+	}
+
+	if len(v.ContextID) == 0 {
+		return errors.New("missing context id")
+	}
+
 	if len(v.ExternalID) == 0 {
 		return errors.New("missing external id")
 	}
@@ -142,7 +158,7 @@ type VesselSchedule struct {
 // Validate checks if the required fields of a VesselSchedule are set.
 func (vs *VesselSchedule) Validate() error {
 	if vs == nil {
-		return nil
+		return errors.New("missing vessel schedule")
 	}
 
 	if len(vs.ContextID) == 0 {
@@ -183,7 +199,7 @@ type VesselSchedulePosition struct {
 // Validate checks if the required fields of a VesselSchedulePosition are set.
 func (vp *VesselSchedulePosition) Validate() error {
 	if vp == nil {
-		return nil
+		return errors.New("missing vessel schedule position")
 	}
 
 	if len(vp.ContextID) == 0 {
