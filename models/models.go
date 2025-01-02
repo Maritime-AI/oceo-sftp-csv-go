@@ -12,7 +12,8 @@ const (
 
 // Crew represents the details of a crew member.
 type Crew struct {
-	CrewExternalID string  `csv:"External ID"`
+	ContextID      string  `csv:"Context ID"`
+	CrewExternalID string  `csv:"Crew External ID"`
 	FirstName      string  `csv:"First Name"`
 	LastName       string  `csv:"Last Name"`
 	MiddleName     *string `csv:"Middle Name"`
@@ -26,6 +27,10 @@ type Crew struct {
 
 // Validate checks if the required fields of a Crew are set.
 func (c *Crew) Validate() error {
+	if len(c.ContextID) == 0 {
+		return errors.New("missing context ID")
+	}
+
 	if len(c.CrewExternalID) == 0 {
 		return errors.New("missing crew external ID")
 	}
@@ -66,7 +71,8 @@ func (r *Crew) GetLocation() string {
 
 // CrewCredential represents the credentials of a crew member.
 type CrewCredential struct {
-	CrewExternalID string  `csv:"External ID"`
+	ContextID      string  `csv:"Context ID"`
+	CrewExternalID string  `csv:"Crew External ID"`
 	Title          string  `csv:"Title"`
 	Type           *string `csv:"Type"`
 	//Endorsements is a list of endorsements, separated by *|* Delimiter.
@@ -77,6 +83,10 @@ type CrewCredential struct {
 
 // Validate checks if the required fields of a CrewCredential are set.
 func (cc *CrewCredential) Validate() error {
+	if len(cc.ContextID) == 0 {
+		return errors.New("missing context id")
+	}
+
 	if len(cc.CrewExternalID) == 0 {
 		return errors.New("missing crew external id")
 	}
@@ -90,7 +100,9 @@ func (cc *CrewCredential) Validate() error {
 
 // Vessel represents the details of a vessel.
 type Vessel struct {
-	VesselExternalID     string  `csv:"External ID"`
+	ContextID            string  `csv:"Context ID"`
+	ExternalID           string  `csv:"External ID"`
+	VesselExternalID     string  `csv:"Vessel External ID"`
 	Name                 string  `csv:"Name"`
 	MMSINumber           *string `csv:"MMSI Number"`
 	IMONumber            *string `csv:"IMO Number"`
@@ -99,6 +111,10 @@ type Vessel struct {
 
 // Validate checks if the required fields of a Vessel are set.
 func (v *Vessel) Validate() error {
+	if len(v.ExternalID) == 0 {
+		return errors.New("missing external id")
+	}
+
 	if len(v.VesselExternalID) == 0 {
 		return errors.New("missing vessel external id")
 	}
@@ -112,6 +128,7 @@ func (v *Vessel) Validate() error {
 
 // VesselSchedule represents the schedule of a vessel.
 type VesselSchedule struct {
+	ContextID        string  `csv:"Context ID"`
 	VesselExternalID string  `csv:"Vessel External ID"`
 	VesselName       string  `csv:"Vessel Name"`
 	VesselIMONumber  *string `csv:"Vessel IMO Number"`
@@ -124,6 +141,13 @@ type VesselSchedule struct {
 
 // Validate checks if the required fields of a VesselSchedule are set.
 func (vs *VesselSchedule) Validate() error {
+	if vs == nil {
+		return nil
+	}
+
+	if len(vs.ContextID) == 0 {
+		return errors.New("missing context id")
+	}
 
 	if len(vs.VesselName) == 0 {
 		return errors.New("missing vessel name")
@@ -146,6 +170,7 @@ func (vs *VesselSchedule) Validate() error {
 
 // VesselSchedulePosition represents the position of a vessel.
 type VesselSchedulePosition struct {
+	ContextID        string `csv:"Context ID"`
 	VesselExternalID string `csv:"Vessel External ID"`
 	Position         string `csv:"Position"`
 	CredentialTitle  string `csv:"Credential Title"`
@@ -159,6 +184,10 @@ type VesselSchedulePosition struct {
 func (vp *VesselSchedulePosition) Validate() error {
 	if vp == nil {
 		return nil
+	}
+
+	if len(vp.ContextID) == 0 {
+		return errors.New("missing context id")
 	}
 
 	if len(vp.VesselExternalID) == 0 {
@@ -178,6 +207,7 @@ func (vp *VesselSchedulePosition) Validate() error {
 
 // CrewSchedule represents the schedule of a crew member.
 type CrewSchedule struct {
+	ContextID        string  `csv:"Context ID"`
 	CrewExternalID   string  `csv:"Crew External ID"`
 	VesselExternalID string  `csv:"Vessel External ID"`
 	VesselName       string  `csv:"Vessel Name"`
@@ -191,6 +221,10 @@ type CrewSchedule struct {
 func (vs *CrewSchedule) Validate() error {
 	if vs == nil {
 		return errors.New("missing crew schedule")
+	}
+
+	if len(vs.ContextID) == 0 {
+		return errors.New("missing context id")
 	}
 
 	if len(vs.VesselExternalID) == 0 {
@@ -218,6 +252,7 @@ func (vs *CrewSchedule) Validate() error {
 
 // CrewSchedulePosition represents the position details of a crew member in a schedule.
 type CrewSchedulePosition struct {
+	ContextID        string `csv:"Context ID"`
 	CrewExternalID   string `csv:"Crew External ID"`
 	VesselExternalID string `csv:"Vessel External ID"`
 	Position         string `csv:"Position"`
@@ -232,6 +267,10 @@ type CrewSchedulePosition struct {
 func (vs *CrewSchedulePosition) Validate() error {
 	if vs == nil {
 		return errors.New("missing crew schedule position")
+	}
+
+	if len(vs.ContextID) == 0 {
+		return errors.New("missing context id")
 	}
 
 	if len(vs.VesselExternalID) == 0 {

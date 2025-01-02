@@ -321,7 +321,7 @@ func (s *OCEOSFTPClient) uploadData(ctx context.Context, fileName string, data [
 
 	// Open the destination file on the remote server
 	dest := fmt.Sprintf("./%s/%s", remoteDir, fileName)
-	log.Printf("uoloading data to %s", dest)
+	log.Printf("uploading data to %s", dest)
 	destFile, err := sc.Create(dest)
 	if err != nil {
 		return fmt.Errorf("failed to create remote file: %w", err)
