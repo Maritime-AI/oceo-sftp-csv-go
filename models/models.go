@@ -12,17 +12,17 @@ const (
 
 // Crew represents the details of a crew member.
 type Crew struct {
-	ContextID      string  `csv:"Context ID"`
-	CrewExternalID string  `csv:"Crew External ID"`
-	FirstName      string  `csv:"First Name"`
-	LastName       string  `csv:"Last Name"`
-	MiddleName     *string `csv:"Middle Name"`
-	JobTitle       *string `csv:"Job Title"`
-	City           *string `csv:"City"`
-	State          *string `csv:"State"`
-	Country        *string `csv:"Country"`
-	Email          *string `csv:"Email"`
-	Phone          *string `csv:"Phone"`
+	ContextID      string  `csv:"Context ID" json:"context_id"`
+	CrewExternalID string  `csv:"Crew External ID" json:"crew_external_id"`
+	FirstName      string  `csv:"First Name" json:"first_name"`
+	LastName       string  `csv:"Last Name" json:"last_name"`
+	MiddleName     *string `csv:"Middle Name" json:"middle_name"`
+	JobTitle       *string `csv:"Job Title" json:"job_title"`
+	City           *string `csv:"City" json:"city"`
+	State          *string `csv:"State" json:"state"`
+	Country        *string `csv:"Country" json:"country"`
+	Email          *string `csv:"Email" json:"email"`
+	Phone          *string `csv:"Phone" json:"phone"`
 }
 
 // Validate checks if the required fields of a Crew are set.
@@ -75,14 +75,14 @@ func (r *Crew) GetLocation() string {
 
 // CrewCredential represents the credentials of a crew member.
 type CrewCredential struct {
-	ContextID      string  `csv:"Context ID"`
-	CrewExternalID string  `csv:"Crew External ID"`
-	Title          string  `csv:"Title"`
-	Type           *string `csv:"Type"`
+	ContextID      string  `csv:"Context ID" json:"context_id"`
+	CrewExternalID string  `csv:"Crew External ID" json:"crew_external_id"`
+	Title          string  `csv:"Title" json:"title"`
+	Type           *string `csv:"Type" json:"type"`
 	//Endorsements is a list of endorsements, separated by *|* Delimiter.
-	Endorsements string  `csv:"Endorsements"`
-	IssuedAt     *string `csv:"Issued At"`
-	ExpiresAt    *string `csv:"Expires At"`
+	Endorsements string  `csv:"Endorsements" json:"endorsements"`
+	IssuedAt     *string `csv:"Issued At" json:"issued_at"`
+	ExpiresAt    *string `csv:"Expires At" json:"expires_at"`
 }
 
 // Validate checks if the required fields of a CrewCredential are set.

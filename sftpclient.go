@@ -71,14 +71,14 @@ func NewOCEOSFTPCLient(
 	}, nil
 }
 
-// UploadCrew uploads a slice of Crew data to the SFTP server as a CSV file.
+// UploadCrewFile uploads a slice of Crew data to the SFTP server as a CSV file.
 //
 // Parameters:
 // - crew: A slice of Crew structs.
 //
 // Returns:
 // - An error if the upload fails.
-func (s *OCEOSFTPClient) UploadCrew(ctx context.Context,
+func (s *OCEOSFTPClient) UploadCrewFile(ctx context.Context,
 	orgName string, crew ...models.Crew) error {
 	if len(crew) == 0 {
 		fmt.Println("No crew to upload")
@@ -99,17 +99,17 @@ func (s *OCEOSFTPClient) UploadCrew(ctx context.Context,
 		return fmt.Errorf("failed to marshal crew: %w", err)
 	}
 
-	return s.uploadData(ctx, fn, bs)
+	return s.uploadData(fn, bs)
 }
 
-// UploadCrewCredentials uploads a slice of CrewCredential data to the SFTP server as a CSV file.
+// UploadCrewCredentialFile uploads a slice of CrewCredential data to the SFTP server as a CSV file.
 //
 // Parameters:
 // - crewCred: A slice of CrewCredential structs.
 //
 // Returns:
 // - An error if the upload fails.
-func (s *OCEOSFTPClient) UploadCrewCredentials(ctx context.Context,
+func (s *OCEOSFTPClient) UploadCrewCredentialFile(ctx context.Context,
 	orgName string, credentials ...models.CrewCredential) error {
 	if len(credentials) == 0 {
 		fmt.Println("No crew to upload")
@@ -130,17 +130,17 @@ func (s *OCEOSFTPClient) UploadCrewCredentials(ctx context.Context,
 		return fmt.Errorf("failed to marshal crew credentials: %w", err)
 	}
 
-	return s.uploadData(ctx, fn, bs)
+	return s.uploadData(fn, bs)
 }
 
-// UploadVessels uploads a slice of Vessel data to the SFTP server as a CSV file.
+// UploadVesselFile uploads a slice of Vessel data to the SFTP server as a CSV file.
 //
 // Parameters:
 // - vessels: A slice of Vessel structs.
 //
 // Returns:
 // - An error if the upload fails.
-func (s *OCEOSFTPClient) UploadVessels(ctx context.Context,
+func (s *OCEOSFTPClient) UploadVesselFile(ctx context.Context,
 	orgName string, vessels ...models.Vessel) error {
 	if len(vessels) == 0 {
 		fmt.Println("No vessels to upload")
@@ -161,17 +161,17 @@ func (s *OCEOSFTPClient) UploadVessels(ctx context.Context,
 		return fmt.Errorf("failed to marshal vessels: %w", err)
 	}
 
-	return s.uploadData(ctx, fn, bs)
+	return s.uploadData(fn, bs)
 }
 
-// UploadVesselSchedules uploads a slice of VesselSchedule data to the SFTP server as a CSV file.
+// UploadVesselScheduleFile uploads a slice of VesselSchedule data to the SFTP server as a CSV file.
 //
 // Parameters:
 // - vesselSchedules: A slice of VesselSchedule structs.
 //
 // Returns:
 // - An error if the upload fails.
-func (s *OCEOSFTPClient) UploadVesselSchedules(ctx context.Context,
+func (s *OCEOSFTPClient) UploadVesselScheduleFile(ctx context.Context,
 	orgName string, vesselSchedules ...models.VesselSchedule) error {
 	if len(vesselSchedules) == 0 {
 		fmt.Println("No vessel schedules to upload")
@@ -192,17 +192,17 @@ func (s *OCEOSFTPClient) UploadVesselSchedules(ctx context.Context,
 		return fmt.Errorf("failed to marshal vessel schedules: %w", err)
 	}
 
-	return s.uploadData(ctx, fn, bs)
+	return s.uploadData(fn, bs)
 }
 
-// UploadVesselSchedulePositions uploads a slice of VesselSchedulePosition data to the SFTP server as a CSV file.
+// UploadVesselSchedulePositionFile uploads a slice of VesselSchedulePosition data to the SFTP server as a CSV file.
 //
 // Parameters:
 // - vesselPositions: A slice of VesselSchedulePosition structs.
 //
 // Returns:
 // - An error if the upload fails.
-func (s *OCEOSFTPClient) UploadVesselSchedulePositions(ctx context.Context,
+func (s *OCEOSFTPClient) UploadVesselSchedulePositionFile(ctx context.Context,
 	orgName string, vesselPositions ...models.VesselSchedulePosition) error {
 	if len(vesselPositions) == 0 {
 		fmt.Println("No vessel positions to upload")
@@ -223,17 +223,17 @@ func (s *OCEOSFTPClient) UploadVesselSchedulePositions(ctx context.Context,
 		return fmt.Errorf("failed to marshal vessel positions: %w", err)
 	}
 
-	return s.uploadData(ctx, fn, bs)
+	return s.uploadData(fn, bs)
 }
 
-// UploadCrewSchedules uploads a slice of CrewSchedule data to the SFTP server as a CSV file.
+// UploadCrewScheduleFile uploads a slice of CrewSchedule data to the SFTP server as a CSV file.
 //
 // Parameters:
 // - crewSchedules: A slice of CrewSchedule structs.
 //
 // Returns:
 // - An error if the upload fails.
-func (s *OCEOSFTPClient) UploadCrewSchedules(ctx context.Context, orgName string,
+func (s *OCEOSFTPClient) UploadCrewScheduleFile(ctx context.Context, orgName string,
 	crewSchedules ...models.CrewSchedule) error {
 	if len(crewSchedules) == 0 {
 		fmt.Println("No crew schedules to upload")
@@ -254,17 +254,17 @@ func (s *OCEOSFTPClient) UploadCrewSchedules(ctx context.Context, orgName string
 		return fmt.Errorf("failed to marshal crew schedules: %w", err)
 	}
 
-	return s.uploadData(ctx, fn, bs)
+	return s.uploadData(fn, bs)
 }
 
-// UploadCrewSchedulePositions uploads a slice of CrewSchedulePosition data to the SFTP server as a CSV file.
+// UploadCrewSchedulePositionFile uploads a slice of CrewSchedulePosition data to the SFTP server as a CSV file.
 //
 // Parameters:
 // - crewSchedulePositions: A slice of CrewSchedulePosition structs.
 //
 // Returns:
 // - An error if the upload fails.
-func (s *OCEOSFTPClient) UploadCrewSchedulePositions(ctx context.Context, orgName string,
+func (s *OCEOSFTPClient) UploadCrewSchedulePositionFile(ctx context.Context, orgName string,
 	crewSchedulePositions ...models.CrewSchedulePosition) error {
 	if len(crewSchedulePositions) == 0 {
 		fmt.Println("No crew schedule positions to upload")
@@ -285,7 +285,7 @@ func (s *OCEOSFTPClient) UploadCrewSchedulePositions(ctx context.Context, orgNam
 		return fmt.Errorf("failed to marshal crew schedule positions: %w", err)
 	}
 
-	return s.uploadData(ctx, fn, bs)
+	return s.uploadData(fn, bs)
 }
 
 // uploadData is a helper function to upload data of any type to the SFTP server as a CSV file.
@@ -295,7 +295,7 @@ func (s *OCEOSFTPClient) UploadCrewSchedulePositions(ctx context.Context, orgNam
 //
 // Returns:
 // - An error if the upload fails.
-func (s *OCEOSFTPClient) uploadData(ctx context.Context, fileName string, data []byte) error {
+func (s *OCEOSFTPClient) uploadData(fileName string, data []byte) error {
 
 	conn, err := ssh.Dial("tcp", s.addr, &s.config)
 	if err != nil {
