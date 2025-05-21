@@ -111,8 +111,8 @@ func (cc *CrewCredential) Validate() error {
 type CrewSeatime struct {
 	ContextID            string     `csv:"Context ID" json:"context_id"`
 	CrewExternalID       string     `csv:"Crew External ID" json:"crew_external_id"`
-	CrewOn               *time.Time `csv:"Crew On" json:"crew_on"`
-	CrewOff              *time.Time `csv:"Crew Off" json:"crew_off"`
+	CrewedOn             *time.Time `csv:"Crew On" json:"crew_on"`
+	CrewedOff            *time.Time `csv:"Crew Off" json:"crew_off"`
 	NumDays              *float64   `csv:"Num Days" json:"num_days"`
 	Position             *string    `csv:"Position" json:"position"`
 	ShiftInHours         *int64     `csv:"Shift In Hours" json:"shift_in_hours"`
@@ -144,7 +144,7 @@ func (st *CrewSeatime) Validate() error {
 		return errors.New("missing vessel name")
 	}
 
-	isCrewOnAndOff := st.CrewOn != nil && st.CrewOff != nil
+	isCrewOnAndOff := st.CrewedOn != nil && st.CrewedOff != nil
 	isNumDays := st.NumDays != nil && *st.NumDays > 0
 	if !isCrewOnAndOff && !isNumDays {
 		return errors.New("must provide either crew on/off or num days")
@@ -176,14 +176,14 @@ func (st *CrewSeatime) NumDaysWorked() float64 {
 		}
 
 		return nd
-	case st.CrewOn != nil:
+	case st.CrewedOn != nil:
 		endAt := time.Now()
-		if st.CrewOff != nil {
-			endAt = *st.CrewOff
+		if st.CrewedOff != nil {
+			endAt = *st.CrewedOff
 		}
 
 		endAt = endAt.Add(time.Hour * 24)
-		d := endAt.Sub(*st.CrewOn)
+		d := endAt.Sub(*st.CrewedOn)
 		days := float64(int64(d.Hours() / 24))
 
 		switch *st.ShiftInHours {
