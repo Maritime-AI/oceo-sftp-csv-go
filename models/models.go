@@ -3,6 +3,7 @@ package models
 import (
 	"errors"
 	"strings"
+	"time"
 )
 
 // Delimiter is the delimiter used to separate endorsements in a CSV file.
@@ -105,6 +106,95 @@ func (cc *CrewCredential) Validate() error {
 	}
 
 	return nil
+}
+
+type CrewSeatime struct {
+	ContextID            string     `csv:"Context ID" json:"context_id"`
+	CrewExternalID       string     `csv:"Crew External ID" json:"crew_external_id"`
+	CrewOn               *time.Time `csv:"Crew On" json:"crew_on"`
+	CrewOff              *time.Time `csv:"Crew Off" json:"crew_off"`
+	NumDays              *float64   `csv:"Num Days" json:"num_days"`
+	Position             *string    `csv:"Position" json:"position"`
+	ShiftInHours         *int64     `csv:"Shift In Hours" json:"shift_in_hours"`
+	VesselName           string     `csv:"Vessel Name" json:"vessel_name"`
+	VesselFlag           *string    `csv:"Vessel Flag" json:"vessel_flag"`
+	VesselType           *string    `csv:"Vessel Type" json:"vessel_type"`
+	VesselCapacityGT     *int64     `csv:"Vessel Capacity GT" json:"vessel_capacity_gt"`
+	VesselHorsePower     *float64   `csv:"Vessel Horse Power" json:"vessel_horse_power"`
+	VesselPropulsionType *string    `csv:"Vessel Propulsion Type" json:"vessel_propulsion_type"`
+	VesselIMONumber      *int64     `csv:"Vessel IMO Number" json:"vessel_imo_number"`
+	VesselMMSINumber     *int64     `csv:"Vessel MMSI Number" json:"vessel_mmsi_number"`
+}
+
+// Validate checks if the required fields of a CrewCredential are set.
+func (st *CrewSeatime) Validate() error {
+	if st == nil {
+		return errors.New("missing crew credential")
+	}
+
+	if len(st.ContextID) == 0 {
+		return errors.New("missing context id")
+	}
+
+	if len(st.CrewExternalID) == 0 {
+		return errors.New("missing crew external id")
+	}
+
+	if len(st.VesselName) == 0 {
+		return errors.New("missing vessel name")
+	}
+
+	isCrewOnAndOff := st.CrewOn != nil && st.CrewOff != nil
+	isNumDays := st.NumDays != nil && *st.NumDays > 0
+	if !isCrewOnAndOff && !isNumDays {
+		return errors.New("must provide either crew on/off or num days")
+	}
+
+	return nil
+}
+
+// NumDaysWorked returns the number of days the mariner was at sea
+func (st *CrewSeatime) NumDaysWorked() float64 {
+
+	// either start date or num days needs
+	// to be defined in order to calculate
+	// the sea time
+	switch {
+	case st.NumDays != nil:
+		nd := float64(*st.NumDays)
+
+		if st.ShiftInHours != nil {
+			switch *st.ShiftInHours {
+			case 8:
+				return nd
+
+			case 12:
+				return 1.5 * nd
+			default:
+				return 0
+			}
+		}
+
+		return nd
+	case st.CrewOn != nil:
+		endAt := time.Now()
+		if st.CrewOff != nil {
+			endAt = *st.CrewOff
+		}
+
+		endAt = endAt.Add(time.Hour * 24)
+		d := endAt.Sub(*st.CrewOn)
+		days := float64(int64(d.Hours() / 24))
+
+		switch *st.ShiftInHours {
+		case 8: // 8hr counts for 1 day
+			return days
+		default: // 12hr counts for 1.5 days
+			return days * 1.5
+		}
+	default:
+		return 0
+	}
 }
 
 // Vessel represents the details of a vessel.
