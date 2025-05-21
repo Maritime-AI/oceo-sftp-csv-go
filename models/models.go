@@ -77,6 +77,7 @@ func (r *Crew) GetLocation() string {
 type CrewCredential struct {
 	ContextID      string  `csv:"Context ID" json:"context_id"`
 	CrewExternalID string  `csv:"Crew External ID" json:"crew_external_id"`
+	Number         string  `csv:"Number" json:"number"`
 	Title          string  `csv:"Title" json:"title"`
 	Type           *string `csv:"Type" json:"type"`
 	//Endorsements is a list of endorsements, separated by *|* Delimiter.
