@@ -109,21 +109,24 @@ func (cc *CrewCredential) Validate() error {
 }
 
 type CrewSeatime struct {
-	ContextID            string     `csv:"Context ID" json:"context_id"`
-	CrewExternalID       string     `csv:"Crew External ID" json:"crew_external_id"`
-	CrewedOn             *time.Time `csv:"Crew On" json:"crew_on"`
-	CrewedOff            *time.Time `csv:"Crew Off" json:"crew_off"`
-	NumDays              *float64   `csv:"Num Days" json:"num_days"`
-	Position             *string    `csv:"Position" json:"position"`
-	ShiftInHours         *int64     `csv:"Shift In Hours" json:"shift_in_hours"`
-	VesselName           string     `csv:"Vessel Name" json:"vessel_name"`
-	VesselFlag           *string    `csv:"Vessel Flag" json:"vessel_flag"`
-	VesselType           *string    `csv:"Vessel Type" json:"vessel_type"`
-	VesselCapacityGT     *int64     `csv:"Vessel Capacity GT" json:"vessel_capacity_gt"`
-	VesselHorsePower     *float64   `csv:"Vessel Horse Power" json:"vessel_horse_power"`
-	VesselPropulsionType *string    `csv:"Vessel Propulsion Type" json:"vessel_propulsion_type"`
-	VesselIMONumber      *int64     `csv:"Vessel IMO Number" json:"vessel_imo_number"`
-	VesselMMSINumber     *int64     `csv:"Vessel MMSI Number" json:"vessel_mmsi_number"`
+	ContextID             string     `csv:"Context ID" json:"context_id"`
+	CrewExternalID        string     `csv:"Crew External ID" json:"crew_external_id"`
+	CrewedOn              *time.Time `csv:"Crew On" json:"crew_on"`
+	CrewedOff             *time.Time `csv:"Crew Off" json:"crew_off"`
+	NumDays               *float64   `csv:"Num Days" json:"num_days"`
+	Position              *string    `csv:"Position" json:"position"`
+	ShiftInHours          *int64     `csv:"Shift In Hours" json:"shift_in_hours"`
+	VesselName            string     `csv:"Vessel Name" json:"vessel_name"`
+	VesselFlag            *string    `csv:"Vessel Flag" json:"vessel_flag"`
+	VesselType            *string    `csv:"Vessel Type" json:"vessel_type"`
+	VesselCapacityGT      *int64     `csv:"Vessel Capacity GT" json:"vessel_capacity_gt"`
+	VesselHorsePower      *float64   `csv:"Vessel Horse Power" json:"vessel_horse_power"`
+	VesselPropulsionType  *string    `csv:"Vessel Propulsion Type" json:"vessel_propulsion_type"`
+	VesselIMONumber       *int64     `csv:"Vessel IMO Number" json:"vessel_imo_number"`
+	VesselMMSINumber      *int64     `csv:"Vessel MMSI Number" json:"vessel_mmsi_number"`
+	Compensation          *string    `csv:"Compensation" json:"compensation"`
+	CompensationFrequency *string    `csv:"Compensation Frequency" json:"compensation_frequency"`
+	CompanyName           *string    `csv:"Company Name" json:"company_name"`
 }
 
 // Validate checks if the required fields of a CrewCredential are set.
