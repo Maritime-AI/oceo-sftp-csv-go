@@ -127,6 +127,7 @@ type CrewSeatime struct {
 	Compensation          *string    `csv:"Compensation" json:"compensation"`
 	CompensationFrequency *string    `csv:"Compensation Frequency" json:"compensation_frequency"`
 	CompanyName           *string    `csv:"Company Name" json:"company_name"`
+	WaterWay              *string    `csv:"Water Way" json:"water_way"`
 }
 
 // Validate checks if the required fields of a CrewCredential are set.
