@@ -112,6 +112,7 @@ type CrewSeatime struct {
 	ContextID             string     `csv:"Context ID" json:"context_id"`
 	CrewExternalID        string     `csv:"Crew External ID" json:"crew_external_id"`
 	CrewedOn              *time.Time `csv:"Crew On" json:"crew_on"`
+	IsCrewedOn            *bool      `csv:"Is Crew On" json:"is_crewed_on"`
 	CrewedOff             *time.Time `csv:"Crew Off" json:"crew_off"`
 	NumDays               *float64   `csv:"Num Days" json:"num_days"`
 	Position              *string    `csv:"Position" json:"position"`
@@ -124,6 +125,7 @@ type CrewSeatime struct {
 	VesselPropulsionType  *string    `csv:"Vessel Propulsion Type" json:"vessel_propulsion_type"`
 	VesselIMONumber       *int64     `csv:"Vessel IMO Number" json:"vessel_imo_number"`
 	VesselMMSINumber      *int64     `csv:"Vessel MMSI Number" json:"vessel_mmsi_number"`
+	VesselTonnage         *int64     `csv:"Vessel Tonnage" json:"vessel_tonnage"`
 	Compensation          *string    `csv:"Compensation" json:"compensation"`
 	CompensationFrequency *string    `csv:"Compensation Frequency" json:"compensation_frequency"`
 	CompanyName           *string    `csv:"Company Name" json:"company_name"`
