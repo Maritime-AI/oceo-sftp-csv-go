@@ -380,12 +380,13 @@ func (vs *CrewSchedule) Validate() error {
 
 // CrewSchedulePosition represents the position details of a crew member in a schedule.
 type CrewSchedulePosition struct {
-	ContextID        string `csv:"Context ID"`
-	ExternalID       string `csv:"External ID"`
-	CrewExternalID   string `csv:"Crew External ID"`
-	VesselExternalID string `csv:"Vessel External ID"`
-	Position         string `csv:"Position"`
-	CredentialTitle  string `csv:"Credential Title"`
+	ContextID        string  `csv:"Context ID"`
+	ExternalID       string  `csv:"External ID"`
+	CrewExternalID   string  `csv:"Crew External ID"`
+	VesselExternalID string  `csv:"Vessel External ID"`
+	Position         string  `csv:"Position"`
+	CredentialTitle  string  `csv:"Credential Title"`
+	Status           *string `csv:"Status"`
 	//Endorsements is a list of endorsements, separated by *|* Delimiter.
 	Endorsements   string  `csv:"Endorsements"`
 	ServiceStartAt *string `csv:"Service Start At"`
